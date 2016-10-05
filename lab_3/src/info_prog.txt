@@ -1,0 +1,11 @@
+----- Some information about computer -----
+User name: marta
+OS: Linux
+Computer name: marta-K56CB
+Path to sys bin files: /sbin
+/usr/local/sbin
+/usr/sbin
+Keyboard layout:     us
+Screen height: 768
+MemTotal:        8058900 kB
+Disk storage: 159.924 GB
