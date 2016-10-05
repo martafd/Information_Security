@@ -30,12 +30,12 @@ def writing_new_password(login_name, password, item, first_try):
                 for line in old_file:
                     new_file.write(line.replace(login_name + ' ' + str(person_list[item].is_blocked) + ' ' +
                                                 str(person_list[item].is_limit_on) + ' ' +
-                                                str(person_list[item].is_admin + ' ' +
+                                                str(person_list[item].is_admin) + ' ' +
                                                 str(password), login_name + ' ' +
                                                 str(person_list[item].is_blocked) + ' ' +
                                                 str(person_list[item].is_limit_on) + ' ' +
                                                 str(person_list[item].is_admin) + ' ' +
-                                                str(first_try))))
+                                                str(first_try)))
     os.close(fd)
     os.remove('data.txt')  # Remove original file
     move(abs_path, 'data.txt')  # Move new file
@@ -102,9 +102,22 @@ def change_password(login_name, password):
 
 
 def list_of_users():
+    file = open('data.txt', 'r')
+    split_lines = []
+    for line in file:
+        split_lines.append(line.replace('\n', '').split(' ', -1))
+    file.close()
+    person_list = []
+    for person_arr in split_lines:
+        if len(person_arr) < 5:
+            temp = User(person_arr[0], person_arr[1], person_arr[2], person_arr[3], '')
+        else:
+            temp = User(person_arr[0], person_arr[1], person_arr[2], person_arr[3], person_arr[4])
+        person_list.append(temp)
+
     print 'user_name'.rjust(9), 'is_blocked'.rjust(9), 'limit_on'.rjust(9), \
         'is_admin'.rjust(9),  'password'.rjust(9)
-    for i in xrange(person_list.__len__()):
+    for i in xrange(len(split_lines)):
         try:
             print str(person_list[i].name).rjust(9), str(person_list[i].is_blocked).rjust(9),\
                 str(person_list[i].is_limit_on).rjust(9), str(person_list[i].is_admin).rjust(9), \
@@ -167,6 +180,8 @@ def is_blocked():
 
 def limit_on_password():
     name = raw_input('Enter user name to know if the limit on password: ')
+    if name not in [person_list[item].name for item in xrange(person_list.__len__())]:
+        print 'This user name do not exist'
     for item in xrange(person_list.__len__()):
         if name == person_list[item].name:
             print 'Current password is limited. ' + person_list[item].is_limit_on
@@ -188,6 +203,7 @@ def limit_on_password():
             else:
                 print 'Incorrect choice'
                 return
+
 
 
 def show_admin_panel(login_name, password):
@@ -286,7 +302,13 @@ def show_menu():
 
 
 if __name__ == '__main__':
-    file = open('data.txt', 'r')
+    file_name = 'data.txt'
+    if not os.path.exists(file_name):
+        f = open(file_name, 'w')
+        f.write('ADMIN False False True ')  # admin login, is_blocked, limit_on, is_admin
+        f.close()
+
+    file = open(file_name, 'r')
     split_lines = []
     for line in file:
         split_lines.append(line.replace('\n', '').split(' ', -1))
@@ -301,8 +323,4 @@ if __name__ == '__main__':
             temp = User(person_arr[0], person_arr[1], person_arr[2], person_arr[3], person_arr[4])
         person_list.append(temp)
 
-    if not os.path.exists(file_name):
-        f = open(file_name, 'w')
-        f.write('ADMIN False False True ')  # admin login, is_blocked, limit_on, is_admin
-        f.close()
     show_menu()
