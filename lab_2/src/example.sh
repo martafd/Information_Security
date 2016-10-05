@@ -26,32 +26,12 @@ if [ ! -d "$HOME/$path" ]; then
     echo "Screen height: `xrandr --current | grep '*' | uniq | awk '{print $1}' | cut -d 'x' -f2`"  >> $HOME/$path/info.txt
     echo "`grep MemTotal /proc/meminfo`"  >> $HOME/$path/info.txt
     echo "Disk storage: `df | grep '^/dev/[hs]d' | awk '{s+=$2} END {print s/1048576}'` GB"  >> $HOME/$path/info.txt
-
     echo "`md5sum info.txt | awk '{ print $1 }'`"  >> $HOME/$path/hash_info.txt
-#    echo "`md5sum $(cat info.txt) | awk '{ print $1 }'`"  >> $HOME/$path/hash1_info.txt
 
-#    chattr -R +i myfolder
 else
 echo "Program already installed!"
     #./dist/main/main
 fi
 
-
-
-
-#if [ -e "$path" ]; then
-#echo "Program already installed!"
-#  ./dist/main/main
-#else
-#  mkdir -p $path;
-#  make
-#fi 
-
-
-
-#param1=$1
-name=$0
-echo "running script with name $name and parameter $param1"
-echo 'running scrip with name $name and parameter $param'
 exit 0
 
