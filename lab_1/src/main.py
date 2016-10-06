@@ -67,7 +67,7 @@ def enter_new_password(login_name, password, item):
             first_try = raw_input('Enter new password: ')
             if ast.literal_eval(person_list[item].is_limit_on):
                 print 'flag ' + str(flag)
-                flag = check_password(login_name, first_try)
+                flag = check_password(first_try)
                 if not flag:
                     print 'Look for password limits'
             else:
@@ -189,12 +189,16 @@ def limit_on_password():
             print '1. Yes\n2. No'
             choice = raw_input('Choice: ')
             if choice == '1':
-                cur_line = str(person_list[item].name) + ' ' + str(person_list[item].is_blocked) + ' ' + \
-                           str(person_list[item].is_limit_on) + ' ' + str(split_lines[item].is_admin) + ' ' + \
-                           str(split_lines[item].password)
-                new_line = str(person_list[item].name) + ' ' + str(person_list[item].is_blocked) + ' ' + \
+                cur_line = str(person_list[item].name) + ' ' + \
+                           str(person_list[item].is_blocked) + ' ' + \
+                           str(person_list[item].is_limit_on) + ' ' + \
+                           str(person_list[item].is_admin) + ' ' + \
+                           str(person_list[item].password)
+                new_line = str(person_list[item].name) + ' ' + \
+                           str(person_list[item].is_blocked) + ' ' + \
                            str(not ast.literal_eval(person_list[item].is_limit_on)) + ' ' + \
-                           str(split_lines[item].is_admin) + ' ' + str(split_lines[item].password)
+                           str(person_list[item].is_admin) + ' ' + \
+                           str(person_list[item].password)
                 write_to_file(cur_line, new_line)
                 print 'You change user"s limit on password'
                 return
@@ -203,7 +207,6 @@ def limit_on_password():
             else:
                 print 'Incorrect choice'
                 return
-
 
 
 def show_admin_panel(login_name, password):
